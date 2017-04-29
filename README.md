@@ -4,7 +4,7 @@
 	
 * Tested as working on a blank Epoch 1.0.6.1
 * This adds support for multiple vehicles per key (https://github.com/oiad/vkc)
-* Uses the epoch vehicle upgrade system to do the key changing/claiming.
+* Designed to be light weight and optimized.
 
 # Install:
 
