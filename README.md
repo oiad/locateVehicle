@@ -6,6 +6,14 @@
 * This adds support for multiple vehicles per key (https://github.com/oiad/vkc)
 * Designed to be light weight and optimized.
 
+# REPORTING ERRORS/PROBLEMS
+
+1. Please, if you report issues can you please attach (on pastebin or similar) your CLIENT rpt log file as this helps find out the errors very quickly. To find this logfile:
+
+	```sqf
+	C:\users\<YOUR WINDOWS USERNAME>\AppData\Local\Arma 2 OA\ArmA2OA.RPT
+	```
+
 # Install:
 
 * This uses Click Actions by Mudzereli as a dependancy: https://github.com/mudzereli/DayZEpochDeployableBike/tree/master/overwrites/click_actions
