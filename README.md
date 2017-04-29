@@ -10,11 +10,14 @@
 
 * This uses Click Actions by Mudzereli as a dependancy: https://github.com/mudzereli/DayZEpochDeployableBike/tree/master/overwrites/click_actions
 
-**[>> Download <<] (https://github.com/oiad/locateVehicle/archive/master.zip)**
+**[>> Download <<](https://github.com/oiad/locateVehicle/archive/master.zip)**
 
 # Mission folder install:
 
-1. Move the <code>scripts\locateVehicle.sqf</code> to your mission folder root.
+1. Move the <code>scripts</code> folder and file <code>scripts\locateVehicle.sqf</code> to your mission folder root preserving directory structure.
+	```sqf
+	scripts\locateVehicle.sqf
+	```
 	
 2. Edit your clickActions\config.sqf and add this line to your DZE_CLICK_ACTIONS array:
 	```sqf
