@@ -1,5 +1,5 @@
 /*
-	Rewritten by salival (https://github.com/oiad)
+	locateVehicle by salival (https://github.com/oiad)
 	
 	* Supports multiple vehicles per key.
 	* Used with clickActions to locate vehicles.
@@ -14,7 +14,7 @@ _keyNames = _keyList select 1;
 _i = 0;
 for "_i" from 0 to 60 do {deleteMarkerLocal ("vehicleMarker"+ (str _i));};
 
-if (count _keyIDS < 1) exitWith {systemchat "No keys were found in your toolbelt or backpack."};
+if (count _keyIDS < 1) exitWith {systemChat "No keys were found in your toolbelt or backpack."};
 
 _i = 0;
 {
