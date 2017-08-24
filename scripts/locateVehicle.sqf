@@ -5,11 +5,14 @@
 	* Used with clickActions to locate vehicles.
 */
 
-private ["_characterID","_found","_i","_keyID","_keyIDS","_keyList","_keyName","_keyNames","_marker","_name","_position","_vehicle"];
+private ["_characterID","_found","_i","_keyID","_keyIDS","_keyList","_keyName","_keyNames","_locateMarkerDelete","_locateMarkerTime","_marker","_name","_position","_vehicle"];
 
 _keyList = call epoch_tempKeys;
 _keyIDS = _keyList select 0;
 _keyNames = _keyList select 1;
+
+_locateMarkerDelete = true; // Delete markers after a certain amount of time to avoid cluttering the map?
+_locateMarkerTime = 60; // Time in seconds before markers are deleted if enabled above.
 
 _i = 0;
 for "_i" from 0 to 60 do {deleteMarkerLocal ("vehicleMarker"+ (str _i));};
@@ -35,7 +38,7 @@ _i = 0;
 			_marker setMarkerColorLocal "ColorOrange";
 			_marker setMarkerSizeLocal [1.0, 1.0];
 			_marker setMarkerTextLocal format ["%1",_name];
-			systemChat format ["%1 belongs to %2%3.",_keyName,_name,if (!alive _x) then {" (destroyed)"} else {""}];
+			systemChat format ["%1 belongs to %2%3.",_keyName,_name,if (!alive _x) then {toLower (format [" (%1)",localize "str_artdlg_destroyed"])} else {""}];
 		};
 	} forEach vehicles;
 	if (_found == 0) then {systemChat format ["No vehicles found for %1.",_keyName]};
@@ -43,4 +46,8 @@ _i = 0;
 
 if (_i > 0) then {
 	systemChat format ["Found %1 matching vehicles, check your map for marked locations.",_i];
+	if (_locateMarkerDelete) then {
+		uiSleep _locateMarkerTime;
+		for "_i" from 0 to 60 do {deleteMarkerLocal ("vehicleMarker"+ (str _i));};};
+	};
 };
