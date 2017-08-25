@@ -48,6 +48,6 @@ if (_i > 0) then {
 	systemChat format ["Found %1 matching vehicles, check your map for marked locations.",_i];
 	if (_locateMarkerDelete) then {
 		uiSleep _locateMarkerTime;
-		for "_i" from 0 to 60 do {deleteMarkerLocal ("vehicleMarker"+ (str _i));};};
+		for "_i" from 0 to 60 do {deleteMarkerLocal ("vehicleMarker"+ (str _i));};
 	};
 };
