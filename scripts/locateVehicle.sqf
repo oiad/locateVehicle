@@ -1,11 +1,11 @@
 /*
 	locateVehicle by salival (https://github.com/oiad)
-	
-	* Supports multiple vehicles per key.
-	* Used with clickActions to locate vehicles.
 */
 
 private ["_characterID","_found","_i","_keyID","_keyIDS","_keyList","_keyName","_keyNames","_locateMarkerDelete","_locateMarkerTime","_marker","_name","_position","_vehicle"];
+
+if (dayz_actionInProgress) exitWith {localize "str_player_actionslimit" call dayz_rollingMessages;};
+dayz_actionInProgress = true;
 
 _keyList = call epoch_tempKeys;
 _keyIDS = _keyList select 0;
@@ -17,7 +17,7 @@ _locateMarkerTime = 60; // Time in seconds before markers are deleted if enabled
 _i = 0;
 for "_i" from 0 to 60 do {deleteMarkerLocal ("vehicleMarker"+ (str _i));};
 
-if (count _keyIDS < 1) exitWith {systemChat "No keys were found in your toolbelt or backpack."};
+if (count _keyIDS < 1) exitWith {dayz_actionInProgress = false;systemChat "No keys were found in your toolbelt or backpack."};
 
 _i = 0;
 {
@@ -51,3 +51,5 @@ if (_i > 0) then {
 		for "_i" from 0 to 60 do {deleteMarkerLocal ("vehicleMarker"+ (str _i));};
 	};
 };
+
+dayz_actionInProgress = false;
