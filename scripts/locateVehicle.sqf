@@ -27,7 +27,7 @@ _i = 0;
 	{
 		_vehicle = typeOf _x;
 		_characterID = parseNumber (_x getVariable ["CharacterID","0"]);
-		if ((_characterID == _keyID) && {_vehicle isKindOf "Air" || _vehicle isKindOf "LandVehicle" || _vehicle isKindOf "Ship"}) then {
+		if ((_characterID == _keyID) && {_vehicle isKindOf "Air" || {_vehicle isKindOf "LandVehicle"} || {_vehicle isKindOf "Ship"}}) then {
 			_found = _found +1;
 			_i = _i +1;
 			_position = getPos _x;
