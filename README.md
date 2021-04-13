@@ -1,8 +1,9 @@
-# [EPOCH 1.0.6.2] Locate Vehicles
+# [EPOCH 1.0.7] Locate Vehicles
+Locate Vehicles for Epoch 1.0.7 by salival updated by Airwaves Man (https://github.com/oiad)
 
 * Discussion URL: https://epochmod.com/forum/topic/43819-release-locate-vehicle-vkc-support/
 	
-* Tested as working on a blank Epoch 1.0.6.2
+* Tested as working on a blank Epoch 1.0.7
 * This adds support for multiple vehicles per key (https://github.com/oiad/vkc)
 * Designed to be light weight and optimized.
 
@@ -17,19 +18,36 @@
 # Install:
 
 * This uses Click Actions by Mudzereli as a dependancy: https://github.com/mudzereli/DayZEpochDeployableBike/tree/master/overwrites/click_actions
+* This install basically assumes you have a custom compiles.sqf.
 
 **[>> Download <<](https://github.com/oiad/locateVehicle/archive/master.zip)**
 
 # Mission folder install:
 
 1. Move the <code>scripts</code> folder and file <code>scripts\locateVehicle.sqf</code> to your mission folder root preserving directory structure.
+	
 	```sqf
-	scripts\locateVehicle.sqf
+	scripts\locateVehicle.sqf	
+	```
+	
+2. Open your compiles.sqf and search for:
+
+	```sqf
+	if (!isDedicated) then {
+	```
+	
+	And add this inside the square brackets so it looks like this:
+	
+	```sqf
+	if (!isDedicated) then {
+		locateVehicle = compile preprocessFileLineNumbers "scripts\locateVehicle.sqf";
+	};	
 	```
 
-2. Edit your clickActions\config.sqf and add this line to your DZE_CLICK_ACTIONS array:
+3. Edit your clickActions\config.sqf and add this line to your DZE_CLICK_ACTIONS array:
+
 	```sqf
-	["ItemMap","Identify Keys","execVM 'scripts\locateVehicle.sqf';","true"]
+	["ItemMap","Identify Keys","[] spawn locateVehicle;","true"]
 	```
 
 	For example:
@@ -39,38 +57,99 @@
 		["ItemGPS","Scan Nearby","if(isNil 'DZE_CLICK_ACTIONS_GPS_RANGE') then {DZE_CLICK_ACTIONS_GPS_RANGE = 1500;};DZE_CLICK_ACTIONS_ZOMBIE_COUNT = count ((position player) nearEntities ['zZombie_Base',DZE_CLICK_ACTIONS_GPS_RANGE]); DZE_CLICK_ACTIONS_MAN_COUNT = count ((position player) nearEntities ['CAManBase',DZE_CLICK_ACTIONS_GPS_RANGE]); format['Within %1 Meters: %2 AI/players, %3 zombies, %4 vehicles',DZE_CLICK_ACTIONS_GPS_RANGE,DZE_CLICK_ACTIONS_MAN_COUNT - DZE_CLICK_ACTIONS_ZOMBIE_COUNT,count ((position player) nearEntities ['zZombie_Base',DZE_CLICK_ACTIONS_GPS_RANGE]),count ((position player) nearEntities ['allVehicles',DZE_CLICK_ACTIONS_GPS_RANGE]) - DZE_CLICK_ACTIONS_MAN_COUNT] call dayz_rollingMessages;","true"],
 		["ItemGPS","Range Up"   ,"if(isNil 'DZE_CLICK_ACTIONS_GPS_RANGE') then {DZE_CLICK_ACTIONS_GPS_RANGE = 1500;};DZE_CLICK_ACTIONS_GPS_RANGE = (DZE_CLICK_ACTIONS_GPS_RANGE + 100) min 2500; format['GPS RANGE: %1',DZE_CLICK_ACTIONS_GPS_RANGE] call dayz_rollingMessages;","true"],
 		["ItemGPS","Range Down" ,"if(isNil 'DZE_CLICK_ACTIONS_GPS_RANGE') then {DZE_CLICK_ACTIONS_GPS_RANGE = 1500;};DZE_CLICK_ACTIONS_GPS_RANGE = (DZE_CLICK_ACTIONS_GPS_RANGE - 100) max 1000; format['GPS RANGE: %1',DZE_CLICK_ACTIONS_GPS_RANGE] call dayz_rollingMessages;","true"],
-		["ItemMap","Identify Keys","execVM 'scripts\locateVehicle.sqf';","true"]
+		["ItemMap","Identify Keys","[] spawn locateVehicle;","true"]
 	];
 	```
 
 	If it's the last item in the array, then you must make sure you don't have a <code>,</code> at the end.
 
-3. Download the <code>stringTable.xml</code> file linked below from the [Community Localization GitHub](https://github.com/oiad/communityLocalizations) and copy it to your mission folder, it is a community based localization file and contains translations for major community mods including this one.
-
-**[>> Download stringTable.xml <<](https://github.com/oiad/communityLocalizations/blob/master/stringTable.xml)**
-
 # BattlEye filters:
 
-1. In your config\<yourServerName>\Battleye\scripts.txt around line 20: <code>5 deleteMarker</code> add this to the end of it:
+1. In your config\<yourServerName>\Battleye\scripts.txt around line 26: <code>5 createMarker</code> add this to the end of it:
 
 	```sqf
-	!="for \"_i\" from 0 to 60 do {deleteMarkerLocal (\"vehicleMarker\"+ (str _i));};"
+	!=">> \"CfgVehicles\" >> _vehicle >> \"displayName\");\n_marker = createMarkerLocal [\"vehicleMarker\" + (str _i),[_position select 0,_pos"
 	```
 
 	So it will then look like this for example:
 
 	```sqf
-	5 deleteMarker !"} count allDead;\n\n\nif (dayz_oldBodyCount > _bodyCount) then {" !="for \"_i\" from 0 to 60 do {deleteMarkerLocal (\"vehicleMarker\"+ (str _i));};"
+	5 createMarker !=">> \"CfgVehicles\" >> _vehicle >> \"displayName\");\n_marker = createMarkerLocal [\"vehicleMarker\" + (str _i),[_position select 0,_pos"
 	```
 
-2. In your config\<yourServerName>\Battleye\scripts.txt around line 14: <code>5 createMarker</code> add this to the end of it:
+2. In your config\<yourServerName>\Battleye\scripts.txt around line 32: <code>5 deleteMarker</code> add this to the end of it:
 
 	```sqf
-	!="_marker = createMarkerLocal [\"vehicleMarker\" + (str _i),[_position select 0,_position select 1]];"
+	!="ocateMarkerTime = 60; \n\n_i = 0;\nfor \"_i\" from 0 to 60 do {deleteMarkerLocal (\"vehicleMarker\"+ (str _i));};\n\nif (count _keyIDS < "
 	```
 
 	So it will then look like this for example:
 
 	```sqf
-	5 createMarker <CUT> !="_marker = createMarkerLocal [\"vehicleMarker\" + (str _i),[_position select 0,_position select 1]];"
+	5 deleteMarker <CUT> !="ocateMarkerTime = 60; \n\n_i = 0;\nfor \"_i\" from 0 to 60 do {deleteMarkerLocal (\"vehicleMarker\"+ (str _i));};\n\nif (count _keyIDS < "
 	```
+	
+3. In your config\<yourServerName>\Battleye\scripts.txt around line 70: <code>5 setMarkerColor</code> add this to the end of it:
+
+	```sqf
+	!="eLocal \"ICON\";\n_marker setMarkerTypeLocal \"DOT\";\n_marker setMarkerColorLocal \"ColorOrange\";\n_marker setMarkerSizeLocal [1.0, 1.0"
+	```
+
+	So it will then look like this for example:
+
+	```sqf
+	5 setMarkerColor <CUT> !="eLocal \"ICON\";\n_marker setMarkerTypeLocal \"DOT\";\n_marker setMarkerColorLocal \"ColorOrange\";\n_marker setMarkerSizeLocal [1.0, 1.0"
+	```	
+	
+4. In your config\<yourServerName>\Battleye\scripts.txt around line 73: <code>5 setMarkerShape</code> add this to the end of it:
+
+	```sqf
+	!="tr _i),[_position select 0,_position select 1]];\n_marker setMarkerShapeLocal \"ICON\";\n_marker setMarkerTypeLocal \"DOT\";\n_marker s"
+	```
+
+	So it will then look like this for example:
+
+	```sqf
+	5 setMarkerShape <CUT> !="tr _i),[_position select 0,_position select 1]];\n_marker setMarkerShapeLocal \"ICON\";\n_marker setMarkerTypeLocal \"DOT\";\n_marker s"
+	```	
+	
+5. In your config\<yourServerName>\Battleye\scripts.txt around line 74: <code>5 setMarkerSize</code> add this to the end of it:
+
+	```sqf
+	!="DOT\";\n_marker setMarkerColorLocal \"ColorOrange\";\n_marker setMarkerSizeLocal [1.0, 1.0];\n_marker setMarkerTextLocal format [\"%1\","
+	```
+
+	So it will then look like this for example:
+
+	```sqf
+	5 setMarkerSize <CUT> !="DOT\";\n_marker setMarkerColorLocal \"ColorOrange\";\n_marker setMarkerSizeLocal [1.0, 1.0];\n_marker setMarkerTextLocal format [\"%1\","
+	```		
+	
+6. In your config\<yourServerName>\Battleye\scripts.txt around line 75: <code>5 setMarkerText</code> add this to the end of it:
+
+	```sqf
+	!="rOrange\";\n_marker setMarkerSizeLocal [1.0, 1.0];\n_marker setMarkerTextLocal format [\"%1\",_name];\nsystemChat format[localize \"STR"
+	```
+
+	So it will then look like this for example:
+
+	```sqf
+	5 setMarkerText <CUT> !="rOrange\";\n_marker setMarkerSizeLocal [1.0, 1.0];\n_marker setMarkerTextLocal format [\"%1\",_name];\nsystemChat format[localize \"STR"
+	```		
+	
+7. In your config\<yourServerName>\Battleye\scripts.txt around line 76: <code>5 setMarkerType</code> add this to the end of it:
+
+	```sqf
+	!=" select 1]];\n_marker setMarkerShapeLocal \"ICON\";\n_marker setMarkerTypeLocal \"DOT\";\n_marker setMarkerColorLocal \"ColorOrange\";\n_m"
+	```
+
+	So it will then look like this for example:
+
+	```sqf
+	5 setMarkerType <CUT> !=" select 1]];\n_marker setMarkerShapeLocal \"ICON\";\n_marker setMarkerTypeLocal \"DOT\";\n_marker setMarkerColorLocal \"ColorOrange\";\n_m"
+	```	
+	
+**** *For Epoch 1.0.6.2 only* ****
+**[>> Download <<](https://github.com/oiad/locateVehicle/archive/refs/tags/Epoch_1.0.6.2.zip)**
+
+Visit this link: https://github.com/oiad/locateVehicle/tree/locateVehicle-Epoch-1.0.6.2	
