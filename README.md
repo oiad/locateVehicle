@@ -14,13 +14,26 @@ Locate Vehicles for Epoch 1.0.7 by salival updated by Airwaves Man (https://gith
 	```sqf
 	C:\users\<YOUR WINDOWS USERNAME>\AppData\Local\Arma 2 OA\ArmA2OA.RPT
 	```
+	
+# Index:
+
+* [Mission folder install](https://github.com/oiad/locateVehicle#mission-folder-install)
+* [BattlEye filter install](https://github.com/oiad/locateVehicle#battleye-filter-install)
+* [Old Releases](https://github.com/oiad/locateVehicle#old-releases)
+
+
+**[>> Download <<](https://github.com/oiad/locateVehicle/archive/master.zip)**
 
 # Install:
 
-* This uses Click Actions by Mudzereli as a dependancy: https://github.com/mudzereli/DayZEpochDeployableBike/tree/master/overwrites/click_actions
 * This install basically assumes you have a custom compiles.sqf.
 
-**[>> Download <<](https://github.com/oiad/locateVehicle/archive/master.zip)**
+** If not, visit this repo and follow the steps there**
+https://github.com/AirwavesMan/custom-epoch-functions
+
+* If you have not installed the Click Actions visit this  
+https://github.com/AirwavesMan/epoch-right-click-actions
+
 
 # Mission folder install:
 
@@ -63,7 +76,7 @@ Locate Vehicles for Epoch 1.0.7 by salival updated by Airwaves Man (https://gith
 
 	If it's the last item in the array, then you must make sure you don't have a <code>,</code> at the end.
 
-# BattlEye filters:
+# BattlEye filter install:
 
 1. In your config\<yourServerName>\Battleye\scripts.txt around line 26: <code>5 createMarker</code> add this to the end of it:
 
@@ -149,7 +162,10 @@ Locate Vehicles for Epoch 1.0.7 by salival updated by Airwaves Man (https://gith
 	5 setMarkerType <CUT> !=" select 1]];\n_marker setMarkerShapeLocal \"ICON\";\n_marker setMarkerTypeLocal \"DOT\";\n_marker setMarkerColorLocal \"ColorOrange\";\n_m"
 	```	
 	
-**** *For Epoch 1.0.6.2 only* ****
+# Old Releases:
+
+**** *Epoch 1.0.6.2* ****
 **[>> Download <<](https://github.com/oiad/locateVehicle/archive/refs/tags/Epoch_1.0.6.2.zip)**
 
-Visit this link: https://github.com/oiad/locateVehicle/tree/locateVehicle-Epoch-1.0.6.2	
+
+
